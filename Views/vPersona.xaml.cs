@@ -1,5 +1,6 @@
 using bguerreroS5.Repositories;
 using bguerreroS5.utils;
+using bguerreroS5.Models;
 
 namespace bguerreroS5.Views;
 
@@ -35,6 +36,33 @@ public partial class vPersona : ContentPage
 	{
 		CargarPersonas();
 		lblStatusMessage.Text = $"{ListaPersonas.ItemsSource.Cast<object>().Count()} persona(s) encontrada(s).";
+	}
+
+	private async void ListaPersonas_SelectionChanged(object sender, SelectionChangedEventArgs e)
+	{
+		if (e.CurrentSelection.FirstOrDefault() is not Persona persona)
+			return;
+
+		var eliminar = await DisplayAlert(
+			"Eliminar persona",
+			$"¿Desea eliminar a {persona.Nombre}?",
+			"Sí",
+			"No");
+
+		if (eliminar)
+		{
+			if (_personRepository.DeletePerson(persona))
+			{
+				lblStatusMessage.Text = $"La persona {persona.Nombre} fue eliminada.";
+				CargarPersonas();
+			}
+			else
+			{
+				lblStatusMessage.Text = _personRepository.StatusMessage;
+			}
+		}
+
+		ListaPersonas.SelectedItem = null;
 	}
 
 	private void CargarPersonas()

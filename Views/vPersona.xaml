@@ -56,7 +56,9 @@
             </Grid>
 
             <CollectionView Grid.Row="2"
-                            x:Name="ListaPersonas">
+                            x:Name="ListaPersonas"
+                            SelectionMode="Single"
+                            SelectionChanged="ListaPersonas_SelectionChanged">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid Padding="10,5" ColumnSpacing="10">

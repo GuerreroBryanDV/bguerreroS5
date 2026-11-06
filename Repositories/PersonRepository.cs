@@ -58,5 +58,20 @@ namespace bguerreroS5.Repositories
             }
             return new List<Models.Persona>();
         }
+
+        //DELETE
+        public bool DeletePerson(Models.Persona persona)
+        {
+            try
+            {
+                Init();
+                return _conn.Delete(persona) > 0;
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to eliminar {0}. Error: {1}", persona.Nombre, ex.Message);
+                return false;
+            }
+        }
     }
 }
